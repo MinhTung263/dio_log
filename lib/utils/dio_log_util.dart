@@ -24,13 +24,7 @@ class DioLog {
     final bool needToShow = await _triggerCheckShowDiolog();
 
     if (!needToShow) return;
-
-    if (debugBtnIsShow()) {
-      dismissDebugBtn();
-    } else {
-      showDebugBtn(context);
-    }
-
+    showDebugBtn(context);
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => HttpLogListWidget(),
