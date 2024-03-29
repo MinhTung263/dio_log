@@ -1,7 +1,7 @@
 import 'dart:io';
 
+import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
-import 'package:dio/io.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -48,20 +48,12 @@ class DioLog {
 
   static void initAdapter({required Dio dio}) {
     dio.interceptors.add(DioLogInterceptor());
-    dio.httpClientAdapter = IOHttpClientAdapter(
-      createHttpClient: () {
-        final client = HttpClient();
-        // Config the client.
-        client.findProxy = (uri) {
-          // Forward all request to proxy "localhost:8888".
-          // Be aware, the proxy should went through you running device,
-          // not the host platform.
-          return 'PROXY localhost:8888';
-        };
-        // You can also create a new HttpClient for Dio instead of returning,
-        // but a client must being returned here.
-        return client;
-      },
-    );
+
+    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+        (HttpClient client) {
+      client.badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+      return client;
+    };
   }
 }
