@@ -21,6 +21,7 @@ class _LogRequestWidgetState extends State<LogRequestWidget>
   late TextEditingController _cookieController;
   late TextEditingController _paramController;
   late TextEditingController _bodyController;
+  bool isShowAll = false;
   bool reqFail = false;
   @override
   void initState() {
@@ -61,12 +62,31 @@ class _LogRequestWidgetState extends State<LogRequestWidget>
               'Tip: long press a key to copy the value to the clipboard',
               style: TextStyle(fontSize: 10, color: Colors.red),
             ),
-            _buildCopy(
-              valueCopy:
-                  'url:${reqOpt.url}\nmethod:${reqOpt.method}\nrequestTime:$requestTime\nresponseTime:$responseTime\n'
-                  'duration:${resOpt?.duration ?? 0}ms\n${dataFormat(reqOpt.data)}'
-                  '\nparams:${toJson(reqOpt.params)}\nheader:${reqOpt.headers}',
-              tilte: 'copy all',
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _buildCopy(
+                  valueCopy:
+                      'url:${reqOpt.url}\nmethod:${reqOpt.method}\nrequestTime:$requestTime\nresponseTime:$responseTime\n'
+                      'duration:${resOpt?.duration ?? 0}ms\n${dataFormat(reqOpt.data)}'
+                      '\nparams:${toJson(reqOpt.params)}\nheader:${reqOpt.headers}',
+                  tilte: 'copy all',
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(isShowAll ? 'shrink all' : 'expand all'),
+                    Switch(
+                      value: isShowAll,
+                      onChanged: (check) {
+                        setState(() {
+                          isShowAll = check;
+                        });
+                      },
+                    ),
+                  ],
+                ),
+              ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -113,7 +133,10 @@ class _LogRequestWidgetState extends State<LogRequestWidget>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         _getDefText('$key:'),
-        JsonView(json: json),
+        JsonView(
+          json: json,
+          isShowAll: isShowAll,
+        ),
       ],
     );
   }
