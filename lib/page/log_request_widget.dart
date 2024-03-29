@@ -61,15 +61,25 @@ class _LogRequestWidgetState extends State<LogRequestWidget>
               'Tip: long press a key to copy the value to the clipboard',
               style: TextStyle(fontSize: 10, color: Colors.red),
             ),
-            ElevatedButton(
-              onPressed: () {
-                copyClipboard(
-                    context,
-                    'url:${reqOpt.url}\nmethod:${reqOpt.method}\nrequestTime:$requestTime\nresponseTime:$responseTime\n'
-                    'duration:${resOpt?.duration ?? 0}ms\n${dataFormat(reqOpt.data)}'
-                    '\nparams:${toJson(reqOpt.params)}\nheader:${reqOpt.headers}');
-              },
-              child: Text('copy all'),
+            _buildCopy(
+              valueCopy:
+                  'url:${reqOpt.url}\nmethod:${reqOpt.method}\nrequestTime:$requestTime\nresponseTime:$responseTime\n'
+                  'duration:${resOpt?.duration ?? 0}ms\n${dataFormat(reqOpt.data)}'
+                  '\nparams:${toJson(reqOpt.params)}\nheader:${reqOpt.headers}',
+              tilte: 'copy all',
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _buildCopy(
+                  valueCopy: '\nparams:${toJson(reqOpt.params)}',
+                  tilte: 'params',
+                ),
+                _buildCopy(
+                  valueCopy: '\nheader:${toJson(reqOpt.headers)}',
+                  tilte: 'header',
+                ),
+              ],
             ),
             _buildKeyValue('url', reqOpt.url),
             _buildKeyValue('method', reqOpt.method),
@@ -82,6 +92,18 @@ class _LogRequestWidgetState extends State<LogRequestWidget>
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildCopy({
+    String valueCopy = "",
+    String tilte = "",
+  }) {
+    return ElevatedButton(
+      onPressed: () {
+        copyClipboard(context, valueCopy);
+      },
+      child: Text(tilte),
     );
   }
 
