@@ -25,7 +25,7 @@ showDebugBtn(BuildContext context, {Widget? button, Color? btnColor}) async {
 
 ///关闭悬浮按钮
 dismissDebugBtn() {
-  if (itemEntry != null) {
+  if (itemEntry != null && itemEntry!.mounted) {
     itemEntry?.remove();
     itemEntry = null;
   }
