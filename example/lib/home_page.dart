@@ -20,7 +20,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    showDebugBtn(context, btnColor: Colors.blue);
+    showDebugBtn(context, btnColor: Colors.orange);
     controller.text = url;
   }
 
