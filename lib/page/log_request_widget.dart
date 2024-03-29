@@ -21,7 +21,6 @@ class _LogRequestWidgetState extends State<LogRequestWidget>
   late TextEditingController _cookieController;
   late TextEditingController _paramController;
   late TextEditingController _bodyController;
-  bool isShowAll = false;
   bool reqFail = false;
   @override
   void initState() {
@@ -70,21 +69,7 @@ class _LogRequestWidgetState extends State<LogRequestWidget>
                       'url:${reqOpt.url}\nmethod:${reqOpt.method}\nrequestTime:$requestTime\nresponseTime:$responseTime\n'
                       'duration:${resOpt?.duration ?? 0}ms\n${dataFormat(reqOpt.data)}'
                       '\nparams:${toJson(reqOpt.params)}\nheader:${reqOpt.headers}',
-                  tilte: 'copy all',
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(isShowAll ? 'shrink all' : 'expand all'),
-                    Switch(
-                      value: isShowAll,
-                      onChanged: (check) {
-                        setState(() {
-                          isShowAll = check;
-                        });
-                      },
-                    ),
-                  ],
+                  tilte: 'all',
                 ),
               ],
             ),
@@ -92,8 +77,16 @@ class _LogRequestWidgetState extends State<LogRequestWidget>
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 _buildCopy(
+                  valueCopy: '\nurl:${toJson(reqOpt.url)}',
+                  tilte: 'url',
+                ),
+                _buildCopy(
                   valueCopy: '\nparams:${toJson(reqOpt.params)}',
                   tilte: 'params',
+                ),
+                _buildCopy(
+                  valueCopy: '\nbody:${toJson(reqOpt.data)}',
+                  tilte: 'body',
                 ),
                 _buildCopy(
                   valueCopy: '\nheader:${toJson(reqOpt.headers)}',
@@ -123,7 +116,7 @@ class _LogRequestWidgetState extends State<LogRequestWidget>
       onPressed: () {
         copyClipboard(context, valueCopy);
       },
-      child: Text(tilte),
+      child: Text("copy " + tilte),
     );
   }
 
@@ -135,7 +128,6 @@ class _LogRequestWidgetState extends State<LogRequestWidget>
         _getDefText('$key:'),
         JsonView(
           json: json,
-          isShowAll: isShowAll,
         ),
       ],
     );
