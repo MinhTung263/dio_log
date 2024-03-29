@@ -15,6 +15,25 @@ class HttpLogListWidget extends StatefulWidget {
 class _HttpLogListWidgetState extends State<HttpLogListWidget> {
   LinkedHashMap<String, NetOptions>? logMap;
   List<String>? keys;
+  @override
+  void initState() {
+    super.initState();
+    showDebugBtn(context);
+  }
+
+  void _updateOverlayState() {
+    if (debugBtnIsShow()) {
+      dismissDebugBtn();
+    } else {
+      showDebugBtn(context);
+    }
+    setState(() {});
+  }
+
+  void _clearLog() {
+    LogPoolManager.getInstance().clear();
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,14 +50,7 @@ class _HttpLogListWidgetState extends State<HttpLogListWidget> {
         iconTheme: theme.iconTheme,
         actions: <Widget>[
           InkWell(
-            onTap: () {
-              if (debugBtnIsShow()) {
-                dismissDebugBtn();
-              } else {
-                showDebugBtn(context);
-              }
-              setState(() {});
-            },
+            onTap: _updateOverlayState,
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 8),
               child: Align(
@@ -51,10 +63,7 @@ class _HttpLogListWidgetState extends State<HttpLogListWidget> {
             ),
           ),
           InkWell(
-            onTap: () {
-              LogPoolManager.getInstance().clear();
-              setState(() {});
-            },
+            onTap: _clearLog,
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 8),
               child: Align(
