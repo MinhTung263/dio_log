@@ -9,12 +9,12 @@ import '../dio_log.dart';
 
 const String kTriggerShow = "SHOW_LOG";
 
-class DioShowLog {
-  static final DioShowLog _instance = DioShowLog._();
+class DioLog {
+  static final DioLog _instance = DioLog._();
 
-  DioShowLog._();
+  DioLog._();
 
-  factory DioShowLog() => _instance;
+  factory DioLog() => _instance;
 
   /// Show dialog if user trigger
   static Future<void> showDiolog({
