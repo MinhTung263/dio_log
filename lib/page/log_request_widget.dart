@@ -73,8 +73,7 @@ class _LogRequestWidgetState extends State<LogRequestWidget>
                 ),
               ],
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Wrap(
               children: [
                 _buildCopy(
                   valueCopy: '\nurl:${toJson(reqOpt.url)}',
@@ -112,11 +111,14 @@ class _LogRequestWidgetState extends State<LogRequestWidget>
     String valueCopy = "",
     String tilte = "",
   }) {
-    return ElevatedButton(
-      onPressed: () {
-        copyClipboard(context, valueCopy);
-      },
-      child: Text("copy " + tilte),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: ElevatedButton(
+        onPressed: () {
+          copyClipboard(context, valueCopy);
+        },
+        child: Text("copy " + tilte),
+      ),
     );
   }
 
