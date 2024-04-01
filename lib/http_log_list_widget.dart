@@ -81,13 +81,19 @@ class _HttpLogListWidgetState extends State<HttpLogListWidget> {
           ? Center(
               child: Text('no request log'),
             )
-          : ListView.builder(
-              reverse: false,
-              itemCount: keys!.length,
-              itemBuilder: (BuildContext context, int index) {
-                NetOptions item = logMap![keys![index]]!;
-                return _buildItem(item);
-              },
+          : Column(
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                    reverse: false,
+                    itemCount: keys!.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final NetOptions item = logMap![keys![index]]!;
+                      return _buildItem(item);
+                    },
+                  ),
+                ),
+              ],
             ),
     );
   }
@@ -119,16 +125,18 @@ class _HttpLogListWidgetState extends State<HttpLogListWidget> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                'url: ${reqOpt.url}',
+                '${reqOpt.url}',
                 style: TextStyle(
                   color: textColor,
                 ),
               ),
               Divider(height: 2),
               Text(
-                'status: ${resOpt?.statusCode}',
+                '${resOpt?.statusCode}',
                 style: TextStyle(
-                  color: textColor,
+                  color: (resOpt?.statusCode ?? 0) == 200
+                      ? Colors.green
+                      : Colors.red,
                 ),
               ),
               Divider(height: 2),
