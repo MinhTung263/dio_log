@@ -13,7 +13,7 @@ class DioLogInterceptor implements Interceptor {
   LogPoolManager? logManage;
 
   ///是否打印日志到控制台
-  static bool enablePrintLog = true;
+  static bool enablePrintLog = false;
 
   DioLogInterceptor() {
     logManage = LogPoolManager.getInstance();
@@ -66,7 +66,7 @@ class DioLogInterceptor implements Interceptor {
     if (enablePrintLog) {
       NetOptions logNp =
           LogPoolManager.getInstance().logMap[resOpt.id.toString()]!;
-      log('request: urlsss:${logNp.reqOptions?.url}');
+      log('request: url:${logNp.reqOptions?.url}');
       log('request: method:${logNp.reqOptions?.method}');
       log('request: params:${logNp.reqOptions?.params}');
       log('request: data:${logNp.reqOptions?.data}');
