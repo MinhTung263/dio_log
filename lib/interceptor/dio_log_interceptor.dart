@@ -1,11 +1,12 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:dio_log/bean/err_options.dart';
 import 'package:dio_log/bean/net_options.dart';
 import 'package:dio_log/bean/req_options.dart';
 import 'package:dio_log/bean/res_options.dart';
-import 'dart:developer';
+
 import '../dio_log.dart';
-import 'package:flutter/foundation.dart';
 
 ///log日志的处理类
 class DioLogInterceptor implements Interceptor {
@@ -65,7 +66,7 @@ class DioLogInterceptor implements Interceptor {
     if (enablePrintLog) {
       NetOptions logNp =
           LogPoolManager.getInstance().logMap[resOpt.id.toString()]!;
-      log('request: url:${logNp.reqOptions?.url}');
+      log('request: urlsss:${logNp.reqOptions?.url}');
       log('request: method:${logNp.reqOptions?.method}');
       log('request: params:${logNp.reqOptions?.params}');
       log('request: data:${logNp.reqOptions?.data}');
