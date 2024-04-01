@@ -1,8 +1,6 @@
 import 'dart:io';
 
-import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -48,12 +46,8 @@ class DioLog {
 
   static void initAdapter({required Dio dio}) {
     dio.interceptors.add(DioLogInterceptor());
-
-    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
-        (HttpClient client) {
-      client.badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
-      return client;
-    };
+    final HttpClient client = new HttpClient();
+    client.badCertificateCallback =
+        ((X509Certificate cert, String host, int port) => true);
   }
 }
